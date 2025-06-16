@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-
+import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls.js'
 
 
 export class Setup {
@@ -21,7 +21,7 @@ export class Setup {
         let baseFOV = 39;
 
         var camera = new THREE.PerspectiveCamera(baseFOV, window.innerWidth / window.innerHeight, 0.25, 2000);
-        camera.position.set(0,0,8);
+        camera.position.set(0,8,16);
 
         camera.baseFOV = baseFOV;
 
@@ -31,6 +31,8 @@ export class Setup {
 
         renderer.setPixelRatio( window.devicePixelRatio );
         renderer.setSize( window.innerWidth, window.innerHeight );
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
         // MOUSE SETUP
 
@@ -38,9 +40,14 @@ export class Setup {
 
         //ORBIT CONTROL SETUP
 
+        const controls2 = new FirstPersonControls( camera, renderer.domElement );
+        controls2.movementSpeed = 0;
+        controls2.lookSpeed = 0.1;
+
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.update();
 
+        camera.controls = controls;
         // Add to instance
 
         this.scene = scene;

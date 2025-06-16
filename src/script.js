@@ -15,14 +15,16 @@ function main() {
 var {scene,camera,renderer} = setup;
 
 var timeObject = { value: 0 };
-loadAssets(timeObject);
+let updateFunction = loadAssets(timeObject);
 
 // RENDER LOOP
+// might need delta time.. 
 
 function render(time)
 {   
     timeObject.value = time*0.001;
-
+    camera.controls.update();
+    updateFunction(time);
     renderer.render(scene,camera);
     requestAnimationFrame ( render );
 }
